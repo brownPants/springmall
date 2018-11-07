@@ -13,10 +13,10 @@ public interface SampleMapper {
 	// 1. select all
 	List<Sample> selectSampleAll(HashMap<String, Object> map);
 	int selectSampleAllCount();
-	// 2. insert
-	int insertSample(Sample sample);
-	// 3. delete
+	// 2. delete
 	int deleteSample(int sampleNo);
+	// 3. insert
+	int insertSample(Sample sample);
 	// 4. update
 	int updateSample(Sample sample);
 	

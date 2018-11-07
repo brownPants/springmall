@@ -35,7 +35,9 @@ public class SampleController {
 	@RequestMapping(value="/sample/removeSample", method=RequestMethod.GET)
 	public String removeSample(@RequestParam(value="sampleNo") int sampleNo) {
 		if(sampleService.removeSample(sampleNo)==1) {
-			System.out.println(sampleNo+"번에 데이터 삭제 성공");
+			System.out.println(sampleNo+"번 데이터 삭제 성공");
+		} else {
+			System.out.println(sampleNo+"번 데이터 삭제 실패");
 		}
 		return "redirect:/sample/sampleList";
 	}
