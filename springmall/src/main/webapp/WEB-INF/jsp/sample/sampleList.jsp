@@ -7,16 +7,16 @@
 <title>sampleList</title>
 <!-- bootstrap CDN -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<!-- jquery CDN -->
 </head>
-<body>
-	<h1>sampleList</h1>
+<body class="container">
+	<h1 class="text-primary text-center">sampleList</h1>
 	<div>
 		<a href="<%=request.getContextPath()%>/sample/addSample">
-				<button type="button">회원가입</button></a>
+			<button type="button" class="btn btn-success btn-lg">회원가입</button>
+		</a>
 	</div>
-	<table class="table">
-		<thead>
+	<table class="table table-hover">
+		<thead class="text-secondary">
 			<tr>
 				<td>SAMPLE NO</td>
 				<td>SAMPLE ID</td>
@@ -29,7 +29,7 @@
 			<!-- model안의 sampleList 가져와서 사용 -->
 			<c:forEach var="sample" items="${sampleList}">
 				<tr>
-					<td>${sample.sampleNo}</td>
+					<td class="text-primary">${sample.sampleNo}</td>
 					<td>${sample.sampleId}</td>
 					<td>${sample.samplePw}</td>
 					<td><a href="/sample/removeSample?sampleNo=${sample.sampleNo}">DELETE</a></td>
@@ -38,14 +38,16 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="text-center">
+	<div>
 		<c:if test="${currentPage>1}">
 			<a href="<%=request.getContextPath()%>/sample/sampleList?currentPage=${currentPage-1}">
-				<button type="button">이전</button></a>
+				<button type="button" class="btn btn-light btn-lg">이전</button>
+			</a>
 		</c:if>
 		<c:if test="${currentPage<lastPage}">
 			<a href="<%=request.getContextPath()%>/sample/sampleList?currentPage=${currentPage+1}">
-				<button type="button">다음</button></a>
+				<button type="button" class="btn btn-light btn-lg">다음</button>
+			</a>
 		</c:if>
 	</div>
 </body>
