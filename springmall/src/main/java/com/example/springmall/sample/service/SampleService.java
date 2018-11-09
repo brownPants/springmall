@@ -1,6 +1,5 @@
 package com.example.springmall.sample.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springmall.sample.mapper.SampleMapper;
+import com.example.springmall.sample.vo.PageMaker;
 import com.example.springmall.sample.vo.Sample;
 
 @Service
@@ -34,19 +34,31 @@ public class SampleService {
 		return sampleMapper.deleteSample(sampleNo);
 	}
 	// 1
-	public List<Sample> getSampleAll(HashMap<String, Object> map) {
-		// 페이징 관련 코드
-		int pagePerRow = 10; // 페이지당 보여줄 글의 목록을 10개로 설정
-		int startRow = ((int)map.get("currentPage") - 1) * pagePerRow; // 현재페이지가 1페이지면 0행부터, 2페이지면 10행부터, 3페이지면 20행부터...
-		int sampleAllCount = sampleMapper.selectSampleAllCount();
-		int lastPage = sampleAllCount / pagePerRow;
-		if(sampleAllCount % pagePerRow != 0) {
-			lastPage++;
+	public List<Sample> getSampleAll(PageMaker pageMaker) {
+		// 페이징 관련 코드(set메서드 순서를 지켜야함)
+		// 페이징에서 기본적으로 넣어줘야 할 값을 설정
+		pageMaker.setRowPerPage(10);
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setAllCount(sampleMapper.selectSampleAllCount());
+		// 페이징에 필요한 값 계산하여 설정
+		pageMaker.setStartRow();
+		pageMaker.setLastPage();
+		pageMaker.setCurrentBlock();
+		pageMaker.setLastBlock();
+		pageMaker.setStartPage();
+		pageMaker.setEndPage();
+		// 이전 페이지와 다음 페이지를 컨트롤하는 조건문
+		if(pageMaker.getCurrentPage() > 0 && pageMaker.getCurrentPage() < pageMaker.getPagePerBlock() + 1) {
+			pageMaker.setPrevPage(false);
+			pageMaker.setNextPage(true);
+		} else if(pageMaker.getLastBlock() == pageMaker.getCurrentBlock()) {
+			pageMaker.setPrevPage(true);
+			pageMaker.setNextPage(false);
+		} else {
+			pageMaker.setPrevPage(true);
+			pageMaker.setNextPage(true);
 		}
-		map.put("pagePerRow", pagePerRow);
-		map.put("startRow", startRow);
-		map.put("lastPage", lastPage);
-		return sampleMapper.selectSampleAll(map);
+		return sampleMapper.selectSampleAll(pageMaker);
 	}
 	
 }

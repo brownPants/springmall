@@ -1,6 +1,5 @@
 package com.example.springmall.sample.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.springmall.sample.service.SampleService;
+import com.example.springmall.sample.vo.PageMaker;
 import com.example.springmall.sample.vo.Sample;
 
 @Controller
@@ -68,13 +68,17 @@ public class SampleController {
 	}
 	// 1. 샘플목록
 	@RequestMapping(value = "/sample/sampleList", method = RequestMethod.GET)
-	public String sampleList(Model model, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) { // Model model = new Model();
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("currentPage", currentPage);
-		List<Sample> sampleList = sampleService.getSampleAll(map);
+	public String sampleList(Model model, PageMaker pageMaker, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) { // Model model = new Model();
+		pageMaker.setCurrentPage(currentPage);
+		List<Sample> sampleList = sampleService.getSampleAll(pageMaker);
 		model.addAttribute("sampleList", sampleList);
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", (int)map.get("lastPage"));
+		model.addAttribute("pagePerBlock", pageMaker.getPagePerBlock());
+		model.addAttribute("currentBlock", pageMaker.getCurrentBlock());
+		model.addAttribute("startPage", pageMaker.getStartPage());
+		model.addAttribute("endPage", pageMaker.getEndPage());
+		model.addAttribute("prevPage", pageMaker.isPrevPage());
+		model.addAttribute("nextPage", pageMaker.isNextPage());
 		return "/sample/sampleList";
 	}
 	

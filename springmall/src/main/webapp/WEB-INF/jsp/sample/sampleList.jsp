@@ -11,7 +11,7 @@
 <body class="container">
 	<h1 class="text-primary text-center">sampleList</h1>
 	<div>
-		<a href="<%=request.getContextPath()%>/sample/addSample">
+		<a href="${pageContext.request.contextPath}/sample/addSample">
 			<button type="button" class="btn btn-success btn-lg">회원가입</button>
 		</a>
 	</div>
@@ -38,17 +38,23 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div>
-		<c:if test="${currentPage>1}">
-			<a href="<%=request.getContextPath()%>/sample/sampleList?currentPage=${currentPage-1}">
-				<button type="button" class="btn btn-light btn-lg">이전</button>
-			</a>
-		</c:if>
-		<c:if test="${currentPage<lastPage}">
-			<a href="<%=request.getContextPath()%>/sample/sampleList?currentPage=${currentPage+1}">
-				<button type="button" class="btn btn-light btn-lg">다음</button>
-			</a>
-		</c:if>
+	<div class="text-center">
+		<ul class="pagination justify-content-center">
+			<c:if test="${prevPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/sample/sampleList?currentPage=${(currentBlock - 1) * pagePerBlock}">< 이전</a></li>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+				<c:if test="${currentPage == i}">
+					<li class="page-item"><a class="page-link" href="#">${i}</a></li>
+				</c:if>
+				<c:if test="${currentPage != i}">
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/sample/sampleList?currentPage=${i}">${i}</a></li>
+				</c:if>
+			</c:forEach>
+			<c:if test="${nextPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/sample/sampleList?currentPage=${currentBlock * pagePerBlock + 1}">다음 ></a></li>
+			</c:if>
+		</ul>
 	</div>
 </body>
 </html>
