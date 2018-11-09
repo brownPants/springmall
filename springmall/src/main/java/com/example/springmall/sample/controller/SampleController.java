@@ -1,5 +1,6 @@
 package com.example.springmall.sample.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +69,11 @@ public class SampleController {
 	}
 	// 1. 샘플목록
 	@RequestMapping(value = "/sample/sampleList", method = RequestMethod.GET)
-	public String sampleList(Model model, PageMaker pageMaker, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) { // Model model = new Model();
+	public String sampleList(Model model, HashMap<String, Object> map, PageMaker pageMaker, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) { // Model model = new Model();
 		pageMaker.setCurrentPage(currentPage);
-		List<Sample> sampleList = sampleService.getSampleAll(pageMaker);
+		map.put("pageMaker", pageMaker);
+		map.put("searchWord", "%"+searchWord+"%");
+		List<Sample> sampleList = sampleService.getSampleAll(map);
 		model.addAttribute("sampleList", sampleList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pagePerBlock", pageMaker.getPagePerBlock());
@@ -79,6 +82,7 @@ public class SampleController {
 		model.addAttribute("endPage", pageMaker.getEndPage());
 		model.addAttribute("prevPage", pageMaker.isPrevPage());
 		model.addAttribute("nextPage", pageMaker.isNextPage());
+		model.addAttribute("searchWord", searchWord);
 		return "/sample/sampleList";
 	}
 	

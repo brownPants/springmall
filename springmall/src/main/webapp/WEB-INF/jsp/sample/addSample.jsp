@@ -44,7 +44,7 @@
 	<div class="text-center">
         <span id="addSampleHelp" class="text-danger"></span>
     </div>
-	<form id="addForm" action="<%=request.getContextPath()%>/sample/addSample" method="post">
+	<form id="addForm" action="${pageContext.request.contextPath}/sample/addSample" method="post">
 		<table class="table table-hover">
 			<tr>
 				<td><input type="text" id="sampleId" name="sampleId" placeholder="아이디" class="form-control"></td>
@@ -54,7 +54,7 @@
 			</tr>
 		</table>
 		<div class="text-center">
-			<a href="<%=request.getContextPath()%>/sample/sampleList">
+			<a href="${pageContext.request.contextPath}/sample/sampleList">
 				<button type="button" class="btn btn-light btn-lg">취소</button>
 			</a>
 			<button id="addBtn" type="button" class="btn btn-success btn-lg">회원가입</button>

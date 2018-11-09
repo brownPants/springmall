@@ -34,7 +34,7 @@
 	<div class="text-center">
         <span id="modifySampleHelp" class="text-danger"></span>
     </div>
-	<form id="modifyForm" action="<%=request.getContextPath()%>/sample/modifySample" method="post">
+	<form id="modifyForm" action="${pageContext.request.contextPath}/sample/modifySample" method="post">
 		<input type="hidden" name="sampleNo" value="${sample.sampleNo}" class="form-control">
 		<table class="table table-hover">
 			<tr>
@@ -45,7 +45,7 @@
 			</tr>
 		</table>
 		<div class="text-center">
-			<a href="<%=request.getContextPath()%>/sample/sampleList">
+			<a href="${pageContext.request.contextPath}/sample/sampleList">
 				<button type="button" class="btn btn-light btn-lg">취소</button>
 			</a>
 			<button id="modifyBtn" type="button" class="btn btn-success btn-lg">정보수정</button>
