@@ -44,13 +44,16 @@
 	<div class="text-center">
         <span id="addSampleHelp" class="text-danger"></span>
     </div>
-	<form id="addForm" action="${pageContext.request.contextPath}/sample/addSample" method="post">
+	<form id="addForm" action="${pageContext.request.contextPath}/sample/addSample" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tr>
 				<td><input type="text" id="sampleId" name="sampleId" placeholder="아이디" class="form-control"></td>
 			</tr>
 			<tr>
 				<td><input type="password" id="samplePw" name="samplePw" placeholder="비밀번호" class="form-control"></td>
+			</tr>
+			<tr>
+				<td><input type="file" id="multipartFile" name="multipartFile" placeholder="파일" class="form-control"></td>
 			</tr>
 		</table>
 		<div class="text-center">

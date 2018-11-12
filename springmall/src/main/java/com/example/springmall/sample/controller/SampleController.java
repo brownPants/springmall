@@ -3,6 +3,9 @@ package com.example.springmall.sample.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.springmall.sample.service.SampleService;
 import com.example.springmall.sample.vo.PageMaker;
 import com.example.springmall.sample.vo.Sample;
+import com.example.springmall.sample.vo.SampleRequest;
 
 @Controller
 public class SampleController {
@@ -22,7 +26,6 @@ public class SampleController {
 	/*
 	 * DATA(변수)+FUNCTION(제어문,연산자)
 	 */
-	
 	// 4-1. 수정 폼
 	@RequestMapping(value = "/sample/modifySample", method = RequestMethod.GET)
 	public String modifySample(Model model, @RequestParam(value = "sampleNo") int sampleNo) {
@@ -48,12 +51,12 @@ public class SampleController {
 	}
 	// 3-2. 입력 액션
 	@RequestMapping(value = "/sample/addSample", method = RequestMethod.POST)
-	public String addSample(Sample sample) { 
+	public String addSample(SampleRequest sampleRequest, HttpSession session) {
 		// 커맨드 객체 멤버 변수의 이름과 input태그 name의 이름이 같아야함, setter를 호출하므로 표준 setter가 필요하다.
-		if(sampleService.addSample(sample) == 1) {
-			System.out.println("ID:"+sample.getSampleId()+"인 데이터 추가 성공");
+		if(sampleService.addSample(sampleRequest, session) == 1) {
+			System.out.println("ID:"+sampleRequest.getSampleId()+"인 데이터 추가 성공");
 		} else {
-			System.out.println("ID:"+sample.getSampleId()+"인 데이터 추가 실패");
+			System.out.println("ID:"+sampleRequest.getSampleId()+"인 데이터 추가 실패");
 		}
 		return "redirect:/sample/sampleList";
 	}
