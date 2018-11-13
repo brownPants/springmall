@@ -29,7 +29,7 @@ public class SampleService {
 	
 	// 4-1
 	public Sample getSample(int sampleNo) {
-		return sampleMapper.selectOne(sampleNo);
+		return sampleMapper.selectOneSample(sampleNo);
 	}
 	// 4-2
 	public int modifySample(Sample sample) {
@@ -71,9 +71,9 @@ public class SampleService {
 		System.out.println(sampleFile);
 		int insertSampleFileNum = sampleFileMapper.insertSampleFile(sampleFile);
 		if(insertSampleFileNum == 1) {
-			System.out.println("originalFileName : " + originalFileName + "인 파일 추가 성공");
+			System.out.println("sampleNo : " + sample.getSampleNo() + "인 파일 추가 성공");
 		} else {
-			System.out.println("originalFileName : " + originalFileName + "인 파일이 없거나 추가 실패");
+			System.out.println("sampleNo : " + sample.getSampleNo() + "인 파일이 없거나 추가 실패");
 		}
 		try {
 			// 내가 원하는 이름의 빈파일 하나 만들어 multipartFile을 빈파일로 복사하자
@@ -94,6 +94,19 @@ public class SampleService {
 	}
 	// 2
 	public int removeSample(int sampleNo) {
+		SampleFile sampleFile = new SampleFile();
+		sampleFile = sampleFileMapper.selectOneSampleFile(sampleNo);
+		String sampleFilePath = sampleFile.getSampleFilePath();
+		String sampleFileName = sampleFile.getSampleFileName();
+		String sampleFileExt = sampleFile.getSampleFileExt();
+		File file = new File(sampleFilePath + "\\" + sampleFileName + "." + sampleFileExt);
+		file.delete();
+		int deleteSampleFileNum = sampleFileMapper.deleteSampleFile(sampleNo);
+		if(deleteSampleFileNum == 1) {
+			System.out.println("sampleNo : " + sampleNo + "인 파일 삭제 성공");
+		} else {
+			System.out.println("sampleNo : " + sampleNo + "인 파일이 없거나 삭제 실패");
+		}
 		return sampleMapper.deleteSample(sampleNo);
 	}
 	// 1
@@ -120,7 +133,7 @@ public class SampleService {
 			pageMaker.setNextPage(false);
 		} else {
 			pageMaker.setPrevPage(true);
-			pageMaker.setNextPage(true);
+			pageMaker.setNextPage(true);	
 		}
 		return sampleMapper.selectSampleAll(map);
 	}

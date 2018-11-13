@@ -34,16 +34,16 @@
    			(sample_id, sample_pw)
    		VALUES (#{sampleId}, #{samplePw})
     </insert>
+    <update id="updateSample" parameterType="com.example.springmall.sample.vo.Sample">
+    	UPDATE jjdev.sample 
+		SET sample_id = #{sampleId}, sample_pw = #{samplePw} 
+		WHERE sample_no = #{sampleNo}
+    </update>
     <select id="selectOne" parameterType="int" resultType="com.example.springmall.sample.vo.Sample">
    	 	SELECT 
        		sample_no as sampleNo, sample_id as sampleId, sample_pw as samplePw 
        	FROM jjdev.sample
        	WHERE sample_no = #{sampleNo}
     </select>
-    <update id="updateSample" parameterType="com.example.springmall.sample.vo.Sample">
-    	UPDATE jjdev.sample 
-		SET sample_id = #{sampleId}, sample_pw = #{samplePw} 
-		WHERE sample_no = #{sampleNo}
-    </update>
 </mapper>
 
