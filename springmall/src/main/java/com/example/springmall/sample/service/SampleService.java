@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +36,7 @@ public class SampleService {
 		return sampleMapper.updateSample(sample);
 	}
 	// 3
-	public int addSample(SampleRequest sampleRequest, HttpSession session) {
+	public int addSample(SampleRequest sampleRequest) {
 		// 1
 		Sample sample = new Sample();
 		sample.setSampleId(sampleRequest.getSampleId());
@@ -52,7 +50,7 @@ public class SampleService {
 		sampleFile.setSampleNo(sample.getSampleNo());
 		// insertSample(sample)가 실행된 후에 PK값이 sample 매개변수로 채워진다.
 		// 3. SampleFilePath
-		String sampleFilePath=session.getServletContext().getRealPath("\\WEB-INF\\uploads"); // 복잡한 루틴을 통해서
+		String sampleFilePath = sampleRequest.getSampleFilePath(); // 복잡한 루틴을 통해서
 		sampleFile.setSampleFilePath(sampleFilePath);
 		// 4. 확장자
 		String originalFileName = multipartFile.getOriginalFilename();
@@ -70,7 +68,7 @@ public class SampleService {
 		if(insertSampleFileNum == 1) {
 			System.out.println("originalFileName : " + originalFileName + "인 파일 추가 성공");
 		} else {
-			System.out.println("originalFileName : " + originalFileName + "인 파일 추가 실패");
+			System.out.println("originalFileName : " + originalFileName + "인 파일이 없거나 추가 실패");
 		}
 		try {
 			// 내가 원하는 이름의 빈파일 하나 만들어 multipartFile을 빈파일로 복사하자
