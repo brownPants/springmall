@@ -63,6 +63,11 @@ public class SampleService {
 		sampleFile.setSampleFileType(multipartFile.getContentType());
 		// 7. 크기
 		sampleFile.setSampleFileSize(multipartFile.getSize());
+		// sampleFilePath와 같은 경로에 디렉토리가 없다면 디렉토리 생성
+		File dir = new File(sampleFilePath);
+		if(!dir.isDirectory()) {
+			dir.mkdirs();
+		}
 		System.out.println(sampleFile);
 		int insertSampleFileNum = sampleFileMapper.insertSampleFile(sampleFile);
 		if(insertSampleFileNum == 1) {
